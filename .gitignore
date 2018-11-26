@@ -1,0 +1,9 @@
+*.sdf
+*.sln
+*.suo
+ipch/
+Debug/
+kurs_7/*.vcxproj
+kurs_7/*.vcxproj.filters
+kurs_7/*.vcxproj.user
+kurs_7/Debug/
