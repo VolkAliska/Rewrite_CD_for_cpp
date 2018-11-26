@@ -27,11 +27,9 @@ int main(){
 		Command bufcom;
 		bufcom = bufcom.generate(pReg, pType1, memTime, calcTime);
 		bufcom.getTimeMas();
+		bufcom.appendShift(i);
 		list[i] = bufcom;
 	}
-
-
-
 
 	for(int i = 0; i < num; i++){
 		list[i].print();

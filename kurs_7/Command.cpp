@@ -40,29 +40,76 @@ Command Command::generate(double pReg, double pType1, int memTime, int calcTime)
 	return com;
 }
 
+//void Command::getTimeMas(){
+//	this->size = 2 + 1 + op2 + calc + 1; // посчитали такты за каждую операцию
+//										 // подробно в command.h
+//	this->time = new int[this->size];
+//	this->time[0] = 0; // чтение кода нас не смущает по условию
+//	this->time[1] = 0; // такт для дешифрации
+//	this->time[2] = 0; // такт для операнда 1 - регистр
+//	int i = 3;
+//	if (op2 == 1) // если 2 операнд регистр
+//		time[3] = 0; // то нам на него тоже пофиг
+//	else{ // если второй операнд находится в памяти
+//		while(i < op2 + 3){ // сколько тактов занимает чтение из памяти
+//			time[i] = 1; // 1 в массиве тайм означает обращение к памяти, нам надо их отслеживать
+//			i++; // просто смотрим текущий индекс
+//		}
+//	}
+//	while(i < this->size - 1){
+//		time[i] = 0; // такты для вычисления результата - тоже не обращаемся к памяти, поэтому 0
+//		i++;
+//	}
+//	time[size-1] = 1; // запись результата - это обращение к памяти, поэтому 1
+//}
+
+
+
 void Command::getTimeMas(){
-	this->size = 2 + 1 + op2 + calc + 1; // посчитали такты за каждую операцию
+	this->size = 2 + 1 + this->op2 + this->calc + 1; // посчитали такты за каждую операцию
 										 // подробно в command.h
-	this->time = new int[this->size];
-	this->time[0] = 0; // чтение кода нас не смущает по условию
-	this->time[1] = 0; // такт для дешифрации
-	this->time[2] = 0; // такт для операнда 1 - регистр
+	this->time.push_back(0); // чтение кода нас не смущает по условию
+	this->time.push_back(0); // такт для дешифрации
+	this->time.push_back(0); // такт для операнда 1 - регистр
 	int i = 3;
-	if (op2 == 1) // если 2 операнд регистр
-		time[3] = 0; // то нам на него тоже пофиг
+	if (this->op2 == 1) // если 2 операнд регистр
+		this->time.push_back(0); // то нам на него тоже пофиг
 	else{ // если второй операнд находится в памяти
-		while(i < op2 + 3){ // сколько тактов занимает чтение из памяти
-			time[i] = 1; // 1 в массиве тайм означает обращение к памяти, нам надо их отслеживать
+		while(i < this->op2 + 3){ // сколько тактов занимает чтение из памяти
+			this->time.push_back(1); // 1 в массиве тайм означает обращение к памяти, нам надо их отслеживать
 			i++; // просто смотрим текущий индекс
 		}
 	}
 	while(i < this->size - 1){
-		time[i] = 0; // такты для вычисления результата - тоже не обращаемся к памяти, поэтому 0
+		this->time.push_back(0); // такты для вычисления результата - тоже не обращаемся к памяти, поэтому 0
 		i++;
 	}
-	time[size-1] = 1; // запись результата - это обращение к памяти, поэтому 1
+	this->time.push_back(1); // запись результата - это обращение к памяти, поэтому 1
 }
 
 void Command::appendShift(int value){
-	
+	for(int i = 0; i < value; i++){
+		vector <int>::iterator it;
+		it = time.begin();
+		this->size++;
+		this->time.resize(this->size);
+		this->time.insert(it, 2);
+	}
 }
+
+//void Command::appendShift(int value){
+//	this->size += value;
+//	int *copy = new int[this->size-value];
+//	for(int i = 0; i < this->size-value; i++){
+//		copy[i] = this->time[i];
+//	}
+//	delete[]this->time;
+//	this->time = new int[this->size];
+//	for(int i =0; i < value; i++){
+//		this->time[i] = 2; // сдвиг в конвейере слева (по последовательности выполнения команд)
+//	}
+//	for(int i = value; i < this->size; i++){
+//		this->time[i] = copy[i];
+//	}
+//	delete[]copy;
+//}

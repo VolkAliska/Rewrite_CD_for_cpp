@@ -15,7 +15,7 @@ public:
 	запись результата - 1 такт
 	*/
 	int size;
-	int* time; 
+	std::vector<int> time;
 
 	Command();
 	Command generate(double pReg, double pType1, int memTime, int calcTime);

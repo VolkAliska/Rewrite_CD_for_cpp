@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <random>
+#include <vector>
 
 
 //Cсылки на дополнительные заголовки, требующиеся для программы
