@@ -21,5 +21,6 @@ public:
 	Command generate(double pReg, double pType1, int memTime, int calcTime);
 	void print();
 	void getTimeMas();
+	void appendShift(int value);
 	~Command(){}
 };

@@ -62,3 +62,7 @@ void Command::getTimeMas(){
 	}
 	time[size-1] = 1; // запись результата - это обращение к памяти, поэтому 1
 }
+
+void Command::appendShift(int value){
+	
+}
