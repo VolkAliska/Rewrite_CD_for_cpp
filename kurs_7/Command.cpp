@@ -15,7 +15,12 @@ void Command::print(){
 	cout << "op2 " << this->op2 << endl;
 	cout << "calc " << this->calc << endl;*/
 	for (int i = 0; i < this->size; i++){
-		cout << time[i] << " ";
+		if(time[i] == 2)
+			cout << " " << " ";
+		else if (time[i] == 3)
+			cout << "_" << " ";
+		else
+			cout << time[i] << " ";
 	}
 	cout << endl;
 }
@@ -64,12 +69,14 @@ void Command::getTimeMas(){
 			it = this->time.begin() + i;
 		}
 	}
-	while(i < this->size - 1){
+	int cnt = 0;
+	while(cnt < this->calc){
 		this->time.insert(it, 0); // такты для вычисления результата - тоже не обращаемся к памяти, поэтому 0
 		i++;
 		it = this->time.begin() + i;
+		cnt++;
 	}
-	this->time.insert(it, 1); // запись результата - это обращение к памяти, поэтому 1
+	this->time.push_back(1); // запись результата - это обращение к памяти, поэтому 1
 }
 
 void Command::appendShift(int value){
@@ -82,48 +89,55 @@ void Command::appendShift(int value){
 	}
 }
 
-int Command::comCmp(Command com2, int flagConflict){
-	vector <int>::iterator start1 = this->time.begin();
-	for (int i =0; i<this->time.size(); i++){
-		if((this->time[i] == 1) || (this->time[i] == 5)){
-			start1 = this->time.begin() + i;
-			break;
-		}
+void Command::appendBack(int value){
+	for(int i = 0; i < value; i++){
+		this->size++;
+		this->time.push_back(2);
 	}
-	int count;
-	count = min(this->time.size(), com2.time.size());
-	int i = 0;
-	//for(int t = 0; t < count; t++){
-	//	if((this->time[t] == 1) && (com2.time[t] == 1)){
-	//		this->time[t] = 5; // inctead 1 (eqv)
-	//	}
-	//}
-	while (count > 0){
-		if(((this->time[i] == 1) || (this->time[i] == 5)) && (com2.time[i] == 5)){
-			this->size++;
-			vector <int>::iterator buf;
-			buf = start1;
-			this->time.insert(start1, 3); // start1 никуда не указывает
-			for (int k =0; k< this->time.size(); k++){
-				if((this->time[k] == 1) || (this->time[k] == 5)){
-					start1 = this->time.begin() + k;
-					break;
-				}
-			}
-			count++;
-		}
-		if (i < (min(this->time.size(), com2.time.size()) - 1))
-			i = i + 1;
-		
-		count--;
-	}
-	count = min(this->time.size(), com2.time.size());
-	for(int t = 0; t < count; t++){
-		if((this->time[t] == 1) && (com2.time[t] == 1)){
-			this->time[t] = 5; // inctead 1 (eqv)
-		}
-	}
-	return flagConflict;
 }
+
+//int Command::comCmp(Command com2, int flagConflict){
+//	vector <int>::iterator start1 = this->time.begin();
+//	for (int i =0; i<this->time.size(); i++){
+//		if((this->time[i] == 1) || (this->time[i] == 5)){
+//			start1 = this->time.begin() + i;
+//			break;
+//		}
+//	}
+//	int count;
+//	count = min(this->time.size(), com2.time.size());
+//	int i = 0;
+//	//for(int t = 0; t < count; t++){
+//	//	if((this->time[t] == 1) && (com2.time[t] == 1)){
+//	//		this->time[t] = 5; // inctead 1 (eqv)
+//	//	}
+//	//}
+//	while (count > 0){
+//		if(((this->time[i] == 1) || (this->time[i] == 5)) && (com2.time[i] == 5)){
+//			this->size++;
+//			vector <int>::iterator buf;
+//			buf = start1;
+//			this->time.insert(start1, 3); // start1 никуда не указывает
+//			for (int k =0; k< this->time.size(); k++){
+//				if((this->time[k] == 1) || (this->time[k] == 5)){
+//					start1 = this->time.begin() + k;
+//					break;
+//				}
+//			}
+//			count++;
+//		}
+//		if (i < (min(this->time.size(), com2.time.size()) - 1))
+//			i = i + 1;
+//		
+//		count--;
+//	}
+//	count = min(this->time.size(), com2.time.size());
+//	for(int t = 0; t < count; t++){
+//		if((this->time[t] == 1) && (com2.time[t] == 1)){
+//			this->time[t] = 5; // inctead 1 (eqv)
+//		}
+//	}
+//	return flagConflict;
+//}
 
 

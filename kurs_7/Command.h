@@ -22,6 +22,7 @@ public:
 	void print();
 	void getTimeMas();
 	void appendShift(int value);
+	void appendBack(int value);
 	int comCmp(Command com2, int flag);
 	~Command(){}
 };
