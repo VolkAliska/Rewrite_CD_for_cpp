@@ -34,6 +34,14 @@ int main(){
 	for(int i = 0; i < num; i++){
 		list[i].print();
 	}
+
+	for(int i = 1; i < num; i++){
+		int flagConflict = 0; // 0 и 1 для нас норм - потому что можно допустить 2 обращения к памяти одновременно
+		for(int j = 0; j < i; j++){
+			flagConflict = list[0].comCmp(list[i], list[j], flagConflict);
+		}
+	}
+
 	delete []list;
 	system("pause");
 	return 0;
