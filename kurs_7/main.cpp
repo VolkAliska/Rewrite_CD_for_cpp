@@ -8,14 +8,20 @@ int main(){
 	
 	double pReg, pType1;
 	int memTime, calcTime, num;
-	cout << "Введите вероятность того, что второй операнд находится в регистре" << endl;
+	/*cout << "Введите вероятность того, что второй операнд находится в регистре " << endl;
+	cout << "0.9 0.8 0.6 " << endl;
 	cin >> pReg;
 	cout << "Введите вероятность того, что команда имеет 1 тип" << endl;
+	cout << "0.9 0.7 0.5 " << endl;
 	cin >> pType1;
 	cout << "Введите количество тактов для обращения к памяти" << endl;
 	cin >> memTime;
 	cout << "Введите количество тактов для вычисления результата для команд 2 типа" << endl;
-	cin >> calcTime;
+	cin >> calcTime;*/
+	pReg = 0.6;
+	pType1 = 0.5;
+	memTime = 5;
+	calcTime = 8;
 	cout << "Введите количество команд" << endl;
 	cin >> num;
 
@@ -31,15 +37,23 @@ int main(){
 		list[i] = bufcom;
 	}
 
-	for(int i = 0; i < num; i++){
-		list[i].print();
-	}
-
 	for(int i = 1; i < num; i++){
 		int flagConflict = 0; // 0 и 1 для нас норм - потому что можно допустить 2 обращения к памяти одновременно
 		for(int j = 0; j < i; j++){
-			flagConflict = list[0].comCmp(list[i], list[j], flagConflict);
+			flagConflict = list[i].comCmp(list[j], flagConflict);
 		}
+		//list[i].print();
+	}
+
+	for(int i = 0; i < num; i++){
+		for(int j = 0; j < list[i].size; j++){
+			if(list[i].time[j] == 5)
+				list[i].time[j] = 1;
+		}
+	}
+
+	for(int i = 0; i < num; i++){
+		list[i].print();
 	}
 
 	delete []list;
