@@ -25,6 +25,79 @@ void Command::print(){
 	cout << endl;
 }
 
+void Command::printNice(){
+	int isZeroUsed = 0;
+	/* K - чтение кода операции
+	D - дешифрация
+	R - обращаемся к регистру
+	M - обращаемся к памяти
+	_ - такт с "нет операции"
+	пробел - пустые отступы для наглядности
+	*/
+	if (this->op2 == 1){ // здесь работаем только с командами, у которых 2 операнд в регистре
+		for (int i = 0; i < this->size; i++){
+			if(time[i] == 2)
+				cout << " " << " ";
+			else if (time[i] == 3)
+				cout << "_" << " ";
+			else if (time[i] == 1)
+				cout << "M" << " ";
+			else if (time[i] == 0){
+				if (isZeroUsed == 0){
+					isZeroUsed = 1;
+					cout << "K" << " ";
+				}
+				else if (isZeroUsed == 1){
+					isZeroUsed = 2;
+					cout << "D" << " ";
+				}
+				else if (isZeroUsed == 2){
+					isZeroUsed = 3;
+					cout << "R" << " ";
+				}
+				else if (isZeroUsed == 3){
+					isZeroUsed = 4;
+					cout << "R" << " ";
+				}
+				else if (isZeroUsed == 4){
+					isZeroUsed = 4;
+					cout << "C" << " ";
+				}
+			}
+		}
+	}
+	else{ // здесь работаем только с командами, у которых 2 операнд в памяти
+		for (int i = 0; i < this->size; i++){
+			if(time[i] == 2)
+				cout << " " << " ";
+			else if (time[i] == 3)
+				cout << "_" << " ";
+			else if (time[i] == 1)
+				cout << "M" << " ";
+			else if (time[i] == 0){
+				if (isZeroUsed == 0){
+					isZeroUsed = 1;
+					cout << "K" << " ";
+				}
+				else if (isZeroUsed == 1){
+					isZeroUsed = 2;
+					cout << "D" << " ";
+				}
+				else if (isZeroUsed == 2){
+					isZeroUsed = 3;
+					cout << "R" << " ";
+				}
+				else if (isZeroUsed == 3){
+					isZeroUsed = 3;
+					cout << "C" << " ";
+				}
+			}
+		}
+	}
+	
+	cout << endl;
+}
+
 Command Command::generate(double pReg, double pType1, int memTime, int calcTime){
 	Command com;
 	if((rand() % 100) < (pReg * 100)){ // ручками делаем вероятность 
@@ -45,6 +118,15 @@ Command Command::generate(double pReg, double pType1, int memTime, int calcTime)
 	return com;
 }
 
+int Command::getTime(){
+	int time = 0;
+	for (int i =0; i < this->size; i++){
+		if (this->time[i] != 2){ // потому что 2 - незначащие сдвиги, а все остальное - действительно команда
+			time++;
+		}
+	}
+	return time;
+}
 
 void Command::getTimeMas(){
 	vector <int>::iterator it;
@@ -95,49 +177,3 @@ void Command::appendBack(int value){
 		this->time.push_back(2);
 	}
 }
-
-//int Command::comCmp(Command com2, int flagConflict){
-//	vector <int>::iterator start1 = this->time.begin();
-//	for (int i =0; i<this->time.size(); i++){
-//		if((this->time[i] == 1) || (this->time[i] == 5)){
-//			start1 = this->time.begin() + i;
-//			break;
-//		}
-//	}
-//	int count;
-//	count = min(this->time.size(), com2.time.size());
-//	int i = 0;
-//	//for(int t = 0; t < count; t++){
-//	//	if((this->time[t] == 1) && (com2.time[t] == 1)){
-//	//		this->time[t] = 5; // inctead 1 (eqv)
-//	//	}
-//	//}
-//	while (count > 0){
-//		if(((this->time[i] == 1) || (this->time[i] == 5)) && (com2.time[i] == 5)){
-//			this->size++;
-//			vector <int>::iterator buf;
-//			buf = start1;
-//			this->time.insert(start1, 3); // start1 никуда не указывает
-//			for (int k =0; k< this->time.size(); k++){
-//				if((this->time[k] == 1) || (this->time[k] == 5)){
-//					start1 = this->time.begin() + k;
-//					break;
-//				}
-//			}
-//			count++;
-//		}
-//		if (i < (min(this->time.size(), com2.time.size()) - 1))
-//			i = i + 1;
-//		
-//		count--;
-//	}
-//	count = min(this->time.size(), com2.time.size());
-//	for(int t = 0; t < count; t++){
-//		if((this->time[t] == 1) && (com2.time[t] == 1)){
-//			this->time[t] = 5; // inctead 1 (eqv)
-//		}
-//	}
-//	return flagConflict;
-//}
-
-

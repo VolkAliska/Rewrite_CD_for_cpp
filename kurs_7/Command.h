@@ -19,10 +19,11 @@ public:
 
 	Command();
 	Command generate(double pReg, double pType1, int memTime, int calcTime);
-	void print();
 	void getTimeMas();
 	void appendShift(int value);
 	void appendBack(int value);
-	int comCmp(Command com2, int flag);
+	void print();
+	void printNice();
+	int getTime();
 	~Command(){}
 };
